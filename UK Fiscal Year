@@ -1,0 +1,14 @@
+-- Create UK FiscalYear View --
+create view UKFiscalYear as
+select COLUMNS, DATECOLUMN as date,
+								case when Month(DATECOLUMN) between 4 and 6 then 'Q1'
+								when month(DATECOLUMN) between 7 and 9 then 'Q2'
+								when month(DATECOLUMN) between 10 and 12 then 'Q3'
+								when month(DATECOLUMN) between 1 and 3 then 'Q4'
+							end as Quarter,
+								case when DatePart(Month, DATECOLUMN) >= 4
+								then DatePart(Year, DATECOLUMN) +0
+								else DatePart(Year, DATECOLUMN) -1
+								End as FiscalYear,
+							convert(varchar(3), DATECOLUMN, 100) as FiscalMonth
+from YOURTABLE;
